@@ -1,5 +1,9 @@
 {
   "name": "drop-analysis-frontend",
+  "engines": {
+  "node": "18.x",
+  "npm": "10.9.2"
+  },
   "version": "1.0.0",
   "private": true,
   "dependencies": {
