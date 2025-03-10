@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      <h1>落點分析系統</h1>
+      <h1>學築落點分析系統 V 0.0.1 測試</h1>
       <button onClick={() => setShowAdmin(!showAdmin)}>
         {showAdmin ? "回到首頁" : "後台管理"}
       </button>
