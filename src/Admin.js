@@ -6,22 +6,36 @@ const API_URL = process.env.REACT_APP_API_URL || "https://drop-analysis-backend.
 function Admin() {
   const [schools, setSchools] = useState([]);
   const [newSchool, setNewSchool] = useState({ name: "", minScore: "" });
+  const [error, setError] = useState("");
 
   // 取得學校清單
   useEffect(() => {
+    fetchSchools();
+  }, []);
+
+  const fetchSchools = () => {
     axios.get(`${API_URL}/schools`)
       .then(response => setSchools(response.data))
       .catch(error => console.error("Error fetching schools:", error));
-  }, []);
+  };
 
   // 新增學校
   const handleAddSchool = () => {
+    if (!newSchool.name || !newSchool.minScore) {
+      setError("請輸入學校名稱與最低錄取分數");
+      return;
+    }
+
     axios.post(`${API_URL}/schools`, newSchool)
       .then(response => {
-        setSchools([...schools, response.data]);
+        setSchools([...schools, response.data]); // 新增後即時更新畫面
         setNewSchool({ name: "", minScore: "" });
+        setError("");
       })
-      .catch(error => console.error("Error adding school:", error));
+      .catch(error => {
+        console.error("Error adding school:", error);
+        setError("新增學校失敗，請檢查 API 連接");
+      });
   };
 
   // 刪除學校
@@ -36,6 +50,9 @@ function Admin() {
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
       <h1>後台管理</h1>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
       <h2>學校清單</h2>
       <ul>
         {schools.map(school => (
