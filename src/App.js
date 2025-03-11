@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Admin from "./Admin";
 
+// **確保 API URL 來自環境變數**
 const API_URL = process.env.REACT_APP_API_URL || "https://drop-analysis-backend.onrender.com";
 
 function App() {
@@ -12,18 +13,18 @@ function App() {
   useEffect(() => {
     axios.get(`${API_URL}/schools`)
       .then(response => setSchools(response.data))
-      .catch(error => console.error("Error fetching schools:", error));
+      .catch(error => console.error("前端無法連接 API:", error));
   }, []);
 
   const handleCheck = () => {
     axios.post(`${API_URL}/check`, { score })
       .then(response => setSchools(response.data))
-      .catch(error => console.error("Error checking schools:", error));
+      .catch(error => console.error("查詢學校失敗:", error));
   };
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      <h1>學築落點分析系統 V 0.0.1 測試</h1>
+      <h1>落點分析系統</h1>
       <button onClick={() => setShowAdmin(!showAdmin)}>
         {showAdmin ? "回到首頁" : "後台管理"}
       </button>
