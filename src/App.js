@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Admin from "./Admin";
 
-// **確保 API URL 來自環境變數**
 const API_URL = process.env.REACT_APP_API_URL || "https://drop-analysis-backend.onrender.com";
 
 function App() {
@@ -13,7 +12,7 @@ function App() {
   useEffect(() => {
     axios.get(`${API_URL}/schools`)
       .then(response => setSchools(response.data))
-      .catch(error => console.error("前端無法連接 API:", error));
+      .catch(error => console.error("API 連線失敗:", error));
   }, []);
 
   const handleCheck = () => {
@@ -44,7 +43,7 @@ function App() {
           <h2>可錄取學校：</h2>
           <ul>
             {schools.map((school, index) => (
-              <li key={index}>{school.name}</li>
+              <li key={index}>{school.name} - 最低錄取分數: {school.minScore}</li>
             ))}
           </ul>
         </>
