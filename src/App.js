@@ -32,15 +32,7 @@ const handleCheck = () => {
     return;
   }
 
-  console.log("📤 發送查詢請求:", { score: parseInt(score, 10) });
 
-  axios.post(`${API_URL}/check`, { score: parseInt(score, 10) })  // ✅ 確保傳送的是數字
-    .then(response => {
-      console.log("✅ 查詢回應成功:", response.data);
-      setSchools(response.data);
-    })
-    .catch(error => console.error("❌ 查詢學校失敗:", error));
-};
 
     console.log("📤 發送查詢請求:", { score });
 
