@@ -8,7 +8,6 @@ function Admin() {
   const [newSchool, setNewSchool] = useState({ name: "", minScore: "" });
   const [error, setError] = useState("");
 
-  // 取得學校清單
   useEffect(() => {
     fetchSchools();
   }, []);
@@ -16,10 +15,9 @@ function Admin() {
   const fetchSchools = () => {
     axios.get(`${API_URL}/schools`)
       .then(response => setSchools(response.data))
-      .catch(error => console.error("Error fetching schools:", error));
+      .catch(error => console.error("無法獲取學校資料:", error));
   };
 
-  // 新增學校
   const handleAddSchool = () => {
     if (!newSchool.name || !newSchool.minScore) {
       setError("請輸入學校名稱與最低錄取分數");
@@ -28,23 +26,22 @@ function Admin() {
 
     axios.post(`${API_URL}/schools`, newSchool)
       .then(response => {
-        setSchools([...schools, response.data]); // 新增後即時更新畫面
+        setSchools([...schools, response.data]);
         setNewSchool({ name: "", minScore: "" });
         setError("");
       })
       .catch(error => {
-        console.error("Error adding school:", error);
+        console.error("新增學校失敗:", error);
         setError("新增學校失敗，請檢查 API 連接");
       });
   };
 
-  // 刪除學校
   const handleDeleteSchool = (id) => {
     axios.delete(`${API_URL}/schools/${id}`)
       .then(() => {
         setSchools(schools.filter(school => school.id !== id));
       })
-      .catch(error => console.error("Error deleting school:", error));
+      .catch(error => console.error("刪除學校失敗:", error));
   };
 
   return (
