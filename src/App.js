@@ -6,12 +6,11 @@ const API_URL = process.env.REACT_APP_API_URL || "https://drop-analysis-backend.
 
 function App() {
   const [schools, setSchools] = useState([]);
-  const [score, setScore] = useState("");
-
+  const [score, setScore] = useState(""); // ✅ 確保 score 正確初始化
   const [showAdmin, setShowAdmin] = useState(false);
 
   useEffect(() => {
-    fetchSchools();
+    fetchSchools(); // ✅ 頁面載入時，獲取所有學校
   }, []);
 
   const fetchSchools = () => {
@@ -26,6 +25,8 @@ function App() {
   };
 
   const handleCheck = () => {
+    console.log("🟡 handleCheck() 被執行！"); // ✅ 確保函式有執行
+
     if (!score || isNaN(score)) {
       console.error("⚠️ 請輸入有效的數字");
       return;
@@ -56,7 +57,11 @@ function App() {
           <input 
             type="number" 
             value={score} 
-            onChange={(e) => setScore(parseInt(e.target.value, 10) || "")} // ✅ 修正：確保是數字
+            onChange={(e) => {
+              const value = e.target.value ? parseInt(e.target.value, 10) : "";
+              console.log("🟢 輸入分數變更:", value); // ✅ 確認 score 有更新
+              setScore(value);
+            }}
             placeholder="輸入你的分數"
           />
           <button onClick={handleCheck}>查詢</button>
