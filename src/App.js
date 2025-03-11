@@ -10,6 +10,10 @@ function App() {
   const [showAdmin, setShowAdmin] = useState(false);
 
   useEffect(() => {
+    fetchSchools(); // ✅ 頁面載入時，獲取所有學校
+  }, []);
+
+  const fetchSchools = () => {
     axios.get(`${API_URL}/schools`)
       .then(response => {
         console.log("✅ API 回應成功:", response.data);
@@ -18,21 +22,23 @@ function App() {
       .catch(error => {
         console.error("❌ API 連線失敗:", error);
       });
-  }, []);
+  };
 
   const handleCheck = () => {
-  if (!score) {
-    console.error("⚠️ 請輸入分數");
-    return;
-  }
+    if (!score) {
+      console.error("⚠️ 請輸入分數");
+      return;
+    }
 
-  axios.post(`${API_URL}/check`, { score })
-    .then(response => {
-      console.log("✅ 查詢回應成功:", response.data); // 🔹 確保 API 回應有資料
-      setSchools(response.data); // 🔹 更新學校狀態，畫面才會變化
-    })
-    .catch(error => console.error("❌ 查詢學校失敗:", error));
-};
+    axios.post(`${API_URL}/check`, { score })
+      .then(response => {
+        console.log("✅ 查詢回應成功:", response.data);
+        setSchools(response.data); // ✅ 更新 UI，確保顯示篩選後的學校
+      })
+      .catch(error => {
+        console.error("❌ 查詢學校失敗:", error);
+      });
+  };
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
@@ -56,7 +62,7 @@ function App() {
           <h2>可錄取學校：</h2>
           <ul>
             {schools.length === 0 ? (
-              <p>⚠️ 目前沒有學校資料</p>
+              <p>⚠️ 沒有符合條件的學校</p>
             ) : (
               schools.map((school, index) => (
                 <li key={index}>{school.name} - 最低錄取分數: {school.minScore}</li>
