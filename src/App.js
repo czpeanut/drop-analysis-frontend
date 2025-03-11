@@ -11,14 +11,19 @@ function App() {
 
   useEffect(() => {
     axios.get(`${API_URL}/schools`)
-      .then(response => setSchools(response.data))
-      .catch(error => console.error("API 連線失敗:", error));
+      .then(response => {
+        console.log("✅ API 回應成功:", response.data);  // 🔹 確保 API 正常回傳
+        setSchools(response.data);
+      })
+      .catch(error => {
+        console.error("❌ API 連線失敗:", error);
+      });
   }, []);
 
   const handleCheck = () => {
     axios.post(`${API_URL}/check`, { score })
       .then(response => setSchools(response.data))
-      .catch(error => console.error("查詢學校失敗:", error));
+      .catch(error => console.error("❌ 查詢學校失敗:", error));
   };
 
   return (
@@ -42,9 +47,13 @@ function App() {
           <button onClick={handleCheck}>查詢</button>
           <h2>可錄取學校：</h2>
           <ul>
-            {schools.map((school, index) => (
-              <li key={index}>{school.name} - 最低錄取分數: {school.minScore}</li>
-            ))}
+            {schools.length === 0 ? (
+              <p>⚠️ 目前沒有學校資料</p>
+            ) : (
+              schools.map((school, index) => (
+                <li key={index}>{school.name} - 最低錄取分數: {school.minScore}</li>
+              ))
+            )}
           </ul>
         </>
       )}
