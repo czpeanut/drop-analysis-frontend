@@ -10,7 +10,7 @@ function App() {
   const [showAdmin, setShowAdmin] = useState(false);
 
   useEffect(() => {
-    fetchSchools(); // ✅ 頁面載入時，獲取所有學校
+    fetchSchools();
   }, []);
 
   const fetchSchools = () => {
@@ -30,14 +30,14 @@ function App() {
       return;
     }
 
-    axios.post(`${API_URL}/check`, { score })
+    console.log("📤 發送查詢請求:", { score: parseInt(score, 10) });
+
+    axios.post(`${API_URL}/check`, { score: parseInt(score, 10) })
       .then(response => {
         console.log("✅ 查詢回應成功:", response.data);
-        setSchools(response.data); // ✅ 更新 UI，確保顯示篩選後的學校
+        setSchools(response.data);
       })
-      .catch(error => {
-        console.error("❌ 查詢學校失敗:", error);
-      });
+      .catch(error => console.error("❌ 查詢學校失敗:", error));
   };
 
   return (
