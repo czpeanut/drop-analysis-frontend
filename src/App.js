@@ -21,18 +21,18 @@ function App() {
   }, []);
 
   const handleCheck = () => {
-    if (!score) {
-      console.error("⚠️ 請輸入分數");
-      return;
-    }
+  if (!score) {
+    console.error("⚠️ 請輸入分數");
+    return;
+  }
 
-    axios.post(`${API_URL}/check`, { score })
-      .then(response => {
-        console.log("✅ 查詢回應成功:", response.data);
-        setSchools(response.data);
-      })
-      .catch(error => console.error("❌ 查詢學校失敗:", error));
-  };
+  axios.post(`${API_URL}/check`, { score })
+    .then(response => {
+      console.log("✅ 查詢回應成功:", response.data); // 🔹 確保 API 回應有資料
+      setSchools(response.data); // 🔹 更新學校狀態，畫面才會變化
+    })
+    .catch(error => console.error("❌ 查詢學校失敗:", error));
+};
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
