@@ -47,7 +47,7 @@ function App() {
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
-      <h1>落點分析系統</h1>
+      <h1>學築落點分析系統 V0.0.1(TEST)</h1>
       <button onClick={() => {
         console.log("🟠 後台按鈕被點擊！");
         setShowAdmin(!showAdmin);
