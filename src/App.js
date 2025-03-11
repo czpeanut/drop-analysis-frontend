@@ -7,6 +7,7 @@ const API_URL = process.env.REACT_APP_API_URL || "https://drop-analysis-backend.
 function App() {
   const [schools, setSchools] = useState([]);
   const [score, setScore] = useState("");
+
   const [showAdmin, setShowAdmin] = useState(false);
 
   useEffect(() => {
@@ -25,14 +26,14 @@ function App() {
   };
 
   const handleCheck = () => {
-    if (!score) {
-      console.error("⚠️ 請輸入分數");
+    if (!score || isNaN(score)) {
+      console.error("⚠️ 請輸入有效的數字");
       return;
     }
 
-    console.log("📤 發送查詢請求:", { score: parseInt(score, 10) });
+    console.log("📤 發送查詢請求:", { score });
 
-    axios.post(`${API_URL}/check`, { score: parseInt(score, 10) })
+    axios.post(`${API_URL}/check`, { score })
       .then(response => {
         console.log("✅ 查詢回應成功:", response.data);
         setSchools(response.data);
@@ -55,7 +56,7 @@ function App() {
           <input 
             type="number" 
             value={score} 
-            onChange={(e) => setScore(e.target.value)}
+            onChange={(e) => setScore(parseInt(e.target.value, 10) || "")} // ✅ 修正：確保是數字
             placeholder="輸入你的分數"
           />
           <button onClick={handleCheck}>查詢</button>
