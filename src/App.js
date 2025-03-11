@@ -12,7 +12,7 @@ function App() {
   useEffect(() => {
     axios.get(`${API_URL}/schools`)
       .then(response => {
-        console.log("✅ API 回應成功:", response.data);  // 🔹 確保 API 正常回傳
+        console.log("✅ API 回應成功:", response.data);
         setSchools(response.data);
       })
       .catch(error => {
@@ -21,8 +21,16 @@ function App() {
   }, []);
 
   const handleCheck = () => {
+    if (!score) {
+      console.error("⚠️ 請輸入分數");
+      return;
+    }
+
     axios.post(`${API_URL}/check`, { score })
-      .then(response => setSchools(response.data))
+      .then(response => {
+        console.log("✅ 查詢回應成功:", response.data);
+        setSchools(response.data);
+      })
       .catch(error => console.error("❌ 查詢學校失敗:", error));
   };
 
