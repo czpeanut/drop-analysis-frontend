@@ -24,30 +24,34 @@ function App() {
       });
   };
 
-const handleCheck = () => {
-  console.log("🟡 handleCheck() 被執行！");
+  const handleCheck = () => {
+    console.log("🟡 handleCheck() 被執行！");  // ✅ 確保函式有執行
 
-  if (!score || isNaN(score)) {
-    console.error("⚠️ 請輸入有效的數字");
-    return;
-  }
+    if (!score || isNaN(score)) {
+      console.error("⚠️ 請輸入有效的數字");
+      return;
+    }
 
+    const parsedScore = parseInt(score, 10);
+    console.log("📤 發送查詢請求:", { score: parsedScore });
 
-
-    console.log("📤 發送查詢請求:", { score });
-
-    axios.post(`${API_URL}/check`, { score })
+    axios.post(`${API_URL}/check`, { score: parsedScore })
       .then(response => {
         console.log("✅ 查詢回應成功:", response.data);
         setSchools(response.data);
       })
-      .catch(error => console.error("❌ 查詢學校失敗:", error));
+      .catch(error => {
+        console.error("❌ 查詢學校失敗:", error);
+      });
   };
 
   return (
     <div style={{ padding: "20px", fontFamily: "Arial" }}>
       <h1>落點分析系統</h1>
-      <button onClick={() => setShowAdmin(!showAdmin)}>
+      <button onClick={() => {
+        console.log("🟠 後台按鈕被點擊！");
+        setShowAdmin(!showAdmin);
+      }}>
         {showAdmin ? "回到首頁" : "後台管理"}
       </button>
 
